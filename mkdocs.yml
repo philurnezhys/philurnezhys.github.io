@@ -1,0 +1,26 @@
+site_name: Ad Agency Documentation
+nav:
+  - Info: index.md
+  - Курсовой проект:
+      - Титульный лист: course/title.md
+      - Введение: course/intro.md
+      - Цели и задачи проекта: course/project.md
+      - Заключение: course/final.md
+  - Labs:  
+    - 1.1 Containerization: labs/lab1/containerization.md
+    - 1.2 Orchestration: labs/lab1/orchestration.md
+    - 2.1.1 Manual filters: labs/lab2/manual_filters.md
+    - 2.1.2 Auto filters: labs/lab2/auto_filters.md
+    - 2.2.1 Default Pagination: labs/lab2/default_pagination.md
+    - 2.2.2 Custom pagination: labs/lab2/custom_pagination.md
+    - 2.3.1 File upload & validation: labs/lab2/file_upload.md
+    - 2.4.1 Signals: labs/lab2/signals.md
+    - 3.1.1 Tests: labs/lab3/tests.md
+    - 4.1.1 Filters interface: labs/lab4/filters_interface.md
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    accent: teal
+    primary: grey
