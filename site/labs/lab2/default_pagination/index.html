@@ -560,10 +560,9 @@
 <h4 id="221">Задание 2.2.1</h4>
 <p>Настроить пагинацию для любых списков в Вашем проекте.</p>
 <h3 id="_1">Добавим стандартную конфигурацию:</h3>
-<pre><code class="language-python">    'DEFAULT_FILTER_BACKENDS':
-        ['django_filters.rest_framework.DjangoFilterBackend'],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 3
+<pre><code class="language-python">'DEFAULT_PAGINATION_CLASS':
+    'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5
 </code></pre>
 <p><img alt="" src="../../imgs/2022-10-09_19-23.png" /></p>
 

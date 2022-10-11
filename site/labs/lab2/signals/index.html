@@ -65,6 +65,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#241" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -418,9 +423,66 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2.4.1 Signals
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         2.4.1 Signals
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#241" class="md-nav__link">
+    Задание 2.4.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ready-appspy" class="md-nav__link">
+    Для регистрации сигналов добавим конфигурацию ready в apps.py:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    Сигнал 1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    Сигнал 2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-txt" class="md-nav__link">
+    Сигнал 3 (вывод в txt файл)
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -479,6 +541,49 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#241" class="md-nav__link">
+    Задание 2.4.1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ready-appspy" class="md-nav__link">
+    Для регистрации сигналов добавим конфигурацию ready в apps.py:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    Сигнал 1
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    Сигнал 2
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-txt" class="md-nav__link">
+    Сигнал 3 (вывод в txt файл)
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -494,7 +599,50 @@
 
   <h1>2.4.1 Signals</h1>
 
+<h4 id="241">Задание 2.4.1</h4>
+<p>Реализовать 3 сигнала, которые:</p>
+<ul>
+<li>Вызывает логику, во время создания экземаляра объекта.</li>
+<li>Сохраняет значения выбранных полей в таблице в специальные поля для хранения предыдущих значений при обновлении объекта.</li>
+<li>При удалении объекта записывает информацию об удалении в лог реализованный любым образом.</li>
+</ul>
+<h3 id="ready-appspy">Для регистрации сигналов добавим конфигурацию ready в apps.py:</h3>
+<pre><code class="language-python">from django.apps import AppConfig
 
+
+class AdAgencyConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'ad_agency'
+
+    def ready(self):
+        from . import signals
+</code></pre>
+<h3 id="1">Сигнал 1</h3>
+<pre><code class="language-python">@receiver(post_save, sender=ServicesPL)
+def create_service(sender, instance, created, **kwargs):
+    if created:
+        print(f'Добавлена новая услуга: {instance.title}.')
+</code></pre>
+<p><img alt="" src="../../imgs/2022-10-11_10-11.png" /></p>
+<h3 id="2">Сигнал 2</h3>
+<pre><code class="language-python">@receiver(pre_save, sender=Client)
+def update_client(sender, instance, **kwargs):
+    current = Client.objects.get(id=instance.id)
+    if instance.phone_num != current.phone_num:
+        instance.old_phone = current.phone_num
+        print(f'Обновлён номер телефона клиента &quot;{instance.contact_person}&quot;: прошлый: {instance.old_phone}, '
+              f'актуальный: {instance.phone_num}.')
+    else:
+        print('Новый номер телефона совпадает с прошлым.')
+</code></pre>
+<p><img alt="" src="../../imgs/2022-10-11_10-13.4.png" /></p>
+<h3 id="3-txt">Сигнал 3 (вывод в txt файл)</h3>
+<pre><code class="language-python">@receiver(pre_delete, sender=ServicesPL)
+def delete_service(sender, instance, **kwargs):
+    with open('deleted_services.txt', 'a', encoding='utf-8') as f:
+        f.write(f'Услуга {instance.title} была удалена.')
+</code></pre>
+<p><img alt="" src="../../imgs/2022-10-11_10-16.4.png" /></p>
 
 
 
